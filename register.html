@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enrollment Registration – TrainerHub</title>
+    <meta name="description" content="Register for courses and internships on TrainerHub." />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Nunito+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #f4f6fb;
+            --surface: #fff;
+            --accent: #2563eb;
+            --accent2: #3b82f6;
+            --accent-light: rgba(37, 99, 235, .07);
+            --accent-border: rgba(37, 99, 235, .18);
+            --emerald: #10b981;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: rgba(0, 0, 0, .07);
+            --danger: #e11d48;
+            --radius: 12px
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Nunito Sans', sans-serif;
+            color: var(--text);
+            min-height: 100vh
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 70% 15%, rgba(37, 99, 235, .06) 0%, transparent 70%), radial-gradient(ellipse 50% 60% at 10% 85%, rgba(99, 102, 241, .05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, .04);
+            position: sticky;
+            top: 0;
+            z-index: 100
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .topbar-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem
+        }
+
+        .topbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700
+        }
+
+        .topbar-title span {
+            color: var(--accent)
+        }
+
+        .topbar-badge {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: .7rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--accent-border);
+            letter-spacing: .8px;
+            text-transform: uppercase
+        }
+
+        .btn-back {
+            padding: 8px 20px;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--muted);
+            font-family: inherit;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            text-decoration: none
+        }
+
+        .btn-back:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+            border-color: var(--accent-border)
+        }
+
+        /* MAIN */
+        .main-container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 36px 24px 80px;
+            position: relative;
+            z-index: 1
+        }
+
+        .program-banner {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 16px;
+            padding: 28px 32px;
+            color: #fff;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .program-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .program-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1
+        }
+
+        .program-banner .program-type {
+            display: inline-block;
+            background: rgba(255, 255, 255, .2);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: .75rem;
+            font-weight: 700;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            position: relative;
+            z-index: 1
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 36px
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 0
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .85rem;
+            font-weight: 700;
+            border: 2px solid var(--border);
+            background: #fff;
+            color: var(--muted);
+            transition: all .3s;
+            cursor: default;
+            position: relative;
+            z-index: 2
+        }
+
+        .step-circle.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, .3)
+        }
+
+        .step-circle.completed {
+            border-color: var(--emerald);
+            background: var(--emerald);
+            color: #fff
+        }
+
+        .step-line {
+            width: 80px;
+            height: 3px;
+            background: var(--border);
+            transition: background .3s
+        }
+
+        .step-line.completed {
+            background: var(--emerald)
+        }
+
+        .step-label {
+            position: absolute;
+            top: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: .68rem;
+            font-weight: 600;
+            color: var(--muted);
+            white-space: nowrap;
+            letter-spacing: .3px
+        }
+
+        .step-circle.active .step-label,
+        .step-circle.completed .step-label {
+            color: var(--accent)
+        }
+
+        /* FORM CARD */
+        .form-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 40px 36px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .04);
+            border: 1px solid var(--border);
+            animation: fadeIn .4s ease both
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .form-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .form-card .form-subtitle {
+            font-size: .88rem;
+            color: var(--muted);
+            margin-bottom: 28px
+        }
+
+        .step-content {
+            display: none
+        }
+
+        .step-content.active {
+            display: block
+        }
+
+        /* FORM FIELDS */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 4px
+        }
+
+        .form-row.single {
+            grid-template-columns: 1fr
+        }
+
+        .form-row.triple {
+            grid-template-columns: 1fr 1fr 1fr
+        }
+
+        .form-group {
+            margin-bottom: 18px
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+            letter-spacing: .3px
+        }
+
+        .form-group label .req {
+            color: var(--danger);
+            margin-left: 2px
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid rgba(0, 0, 0, .12);
+            border-radius: 8px;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: .92rem;
+            color: var(--text);
+            background: #f8fafc;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+            background: #fff
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px
+        }
+
+        .form-group .field-error {
+            font-size: .76rem;
+            color: var(--danger);
+            margin-top: 4px;
+            min-height: 16px;
+            display: block
+        }
+
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(225, 29, 72, .08)
+        }
+
+        /* PHOTO UPLOAD */
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 18px
+        }
+
+        .photo-preview {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--muted);
+            overflow: hidden;
+            background: #f8fafc;
+            flex-shrink: 0;
+            transition: border-color .2s
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .photo-preview.has-image {
+            border-style: solid;
+            border-color: var(--accent)
+        }
+
+        .photo-upload-btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-border);
+            background: var(--accent-light);
+            color: var(--accent);
+            font-family: inherit;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .photo-upload-btn:hover {
+            background: var(--accent);
+            color: #fff
+        }
+
+        /* CHECKBOX/TAG UI */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px
+        }
+
+        .tag-chip {
+            padding: 7px 16px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: #f8fafc;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .2s;
+            user-select: none
+        }
+
+        .tag-chip.selected {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, .2)
+        }
+
+        .tag-chip:hover:not(.selected) {
+            background: #eef2ff;
+            border-color: var(--accent-border);
+            color: var(--accent)
+        }
+
+        /* LANGUAGE ROW */
+        .lang-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .lang-row:last-child {
+            border-bottom: none
+        }
+
+        .lang-name {
+            font-weight: 600;
+            font-size: .88rem;
+            min-width: 100px
+        }
+
+        .proficiency-checks {
+            display: flex;
+            gap: 14px
+        }
+
+        .proficiency-checks label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: .8rem;
+            font-weight: 400;
+            color: var(--muted);
+            cursor: pointer
+        }
+
+        .proficiency-checks input[type="checkbox"] {
+            accent-color: var(--accent)
+        }
+
+        /* FILE UPLOAD AREA */
+        .file-drop {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: #fafbfc
+        }
+
+        .file-drop:hover,
+        .file-drop.dragover {
+            border-color: var(--accent);
+            background: var(--accent-light)
+        }
+
+        .file-drop .drop-icon {
+            font-size: 2rem;
+            margin-bottom: 6px
+        }
+
+        .file-drop .drop-text {
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        .file-drop .drop-text strong {
+            color: var(--accent)
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: .82rem
+        }
+
+        .file-info .file-name {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text)
+        }
+
+        .file-info .file-remove {
+            color: var(--danger);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem
+        }
+
+        /* INTERNSHIP TOGGLE */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px
+        }
+
+        .toggle-label {
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--text)
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 50px;
+            transition: .3s
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .3s
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: var(--accent)
+        }
+
+        .toggle-switch input:checked+.toggle-slider::before {
+            transform: translateX(24px)
+        }
+
+        .internship-fields {
+            display: none;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 12px
+        }
+
+        .internship-fields.show {
+            display: block;
+            animation: fadeIn .3s ease both
+        }
+
+        /* CERT ENTRY */
+        .cert-entry {
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 10px
+        }
+
+        /* BUTTONS */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border)
+        }
+
+        .btn {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: .92rem;
+            font-weight: 700;
+            padding: 13px 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all .22s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: .3px
+        }
+
+        .btn-prev {
+            background: #f1f5f9;
+            color: var(--muted);
+            border: 1px solid var(--border)
+        }
+
+        .btn-prev:hover {
+            background: #e2e8f0;
+            color: var(--text)
+        }
+
+        .btn-next {
+            background: var(--accent);
+            color: #fff
+        }
+
+        .btn-next:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(37, 99, 235, .28)
+        }
+
+        .btn-next:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none
+        }
+
+        .btn-submit {
+            background: var(--emerald);
+            color: #fff;
+            padding: 14px 40px;
+            font-size: 1rem
+        }
+
+        .btn-submit:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(16, 185, 129, .3)
+        }
+
+        /* TOAST */
+        .toast-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(15, 23, 42, .4);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center
+        }
+
+        .toast-overlay.active {
+            display: flex
+        }
+
+        .success-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 48px;
+            text-align: center;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .15);
+            animation: fadeIn .4s ease both
+        }
+
+        .success-card .success-icon {
+            font-size: 3.5rem;
+            margin-bottom: 16px
+        }
+
+        .success-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 8px
+        }
+
+        .success-card p {
+            color: var(--muted);
+            font-size: .92rem;
+            margin-bottom: 24px
+        }
+
+        @media(max-width:768px) {
+            .topbar {
+                padding: 14px 18px
+            }
+
+            .main-container {
+                padding: 20px 14px 40px
+            }
+
+            .form-card {
+                padding: 28px 20px
+            }
+
+            .form-row,
+            .form-row.triple {
+                grid-template-columns: 1fr
+            }
+
+            .step-line {
+                width: 40px
+            }
+
+            .program-banner {
+                padding: 22px 20px
+            }
+
+            .topbar-badge {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="topbar-logo">T</div>
+            <span class="topbar-title">Trainer<span>Hub</span></span>
+            <span class="topbar-badge">📝 Registration</span>
+        </div>
+        <a href="student.html" class="btn-back">← Back to Dashboard</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-container">
+
+        <!-- Program Banner -->
+        <div class="program-banner">
+            <h1 id="programTitle">Loading…</h1>
+            <span class="program-type" id="programType">Course</span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="step-item">
+                <div class="step-circle active" data-step="1">1<span class="step-label">Personal</span></div>
+            </div>
+            <div class="step-line" id="line1"></div>
+            <div class="step-item">
+                <div class="step-circle" data-step="2">2<span class="step-label">Academic</span></div>
+            </div>
+            <div class="step-line" id="line2"></div>
+            <div class="step-item">
+                <div class="step-circle" data-step="3">3<span class="step-label">Skills</span></div>
+            </div>
+            <div class="step-line" id="line3"></div>
+            <div class="step-item">
+                <div class="step-circle" data-step="4">4<span class="step-label">Documents</span></div>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="form-card">
+
+            <!-- STEP 1: Personal Details -->
+            <div class="step-content active" id="step1">
+                <h2>👤 Personal Details</h2>
+                <p class="form-subtitle">Tell us about yourself</p>
+
+                <div class="photo-upload">
+                    <div class="photo-preview" id="photoPreview">📷</div>
+                    <div>
+                        <button class="photo-upload-btn"
+                            onclick="document.getElementById('profilePhoto').click()">Upload Photo</button>
+                        <input type="file" id="profilePhoto" accept="image/*" style="display:none"
+                            onchange="previewPhoto(this)">
+                        <span class="field-error" id="photoError"></span>
+                        <p style="font-size:.75rem;color:var(--muted);margin-top:4px">Max 2 MB • JPG, PNG</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name <span class="req">*</span></label>
+                        <input type="text" id="firstName" placeholder="John" maxlength="32">
+                        <span class="field-error" id="firstNameError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name <span class="req">*</span></label>
+                        <input type="text" id="lastName" placeholder="Smith" maxlength="32">
+                        <span class="field-error" id="lastNameError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth <span class="req">*</span></label>
+                        <input type="date" id="dob">
+                        <span class="field-error" id="dobError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender <span class="req">*</span></label>
+                        <select id="gender">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="field-error" id="genderError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Contact Number <span class="req">*</span></label>
+                        <input type="tel" id="contact" placeholder="9876543210" maxlength="10">
+                        <span class="field-error" id="contactError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address <span class="req">*</span></label>
+                        <input type="email" id="email" placeholder="name@example.com" maxlength="100">
+                        <span class="field-error" id="emailError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label>Door No & Street <span class="req">*</span></label>
+                        <input type="text" id="street" placeholder="12/A, Main Street">
+                        <span class="field-error" id="streetError"></span>
+                    </div>
+                </div>
+                <div class="form-row triple">
+                    <div class="form-group">
+                        <label>City <span class="req">*</span></label>
+                        <input type="text" id="city" placeholder="Chennai">
+                        <span class="field-error" id="cityError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Pincode <span class="req">*</span></label>
+                        <input type="text" id="pincode" placeholder="600001" maxlength="6">
+                        <span class="field-error" id="pincodeError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>State <span class="req">*</span></label>
+                        <select id="state">
+                            <option value="">Select State</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Arunachal Pradesh</option>
+                            <option>Assam</option>
+                            <option>Bihar</option>
+                            <option>Chhattisgarh</option>
+                            <option>Goa</option>
+                            <option>Gujarat</option>
+                            <option>Haryana</option>
+                            <option>Himachal Pradesh</option>
+                            <option>Jharkhand</option>
+                            <option>Karnataka</option>
+                            <option>Kerala</option>
+                            <option>Madhya Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Manipur</option>
+                            <option>Meghalaya</option>
+                            <option>Mizoram</option>
+                            <option>Nagaland</option>
+                            <option>Odisha</option>
+                            <option>Punjab</option>
+                            <option>Rajasthan</option>
+                            <option>Sikkim</option>
+                            <option>Tamil Nadu</option>
+                            <option>Telangana</option>
+                            <option>Tripura</option>
+                            <option>Uttar Pradesh</option>
+                            <option>Uttarakhand</option>
+                            <option>West Bengal</option>
+                        </select>
+                        <span class="field-error" id="stateError"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: Academic Details -->
+            <div class="step-content" id="step2">
+                <h2>🎓 Academic Details</h2>
+                <p class="form-subtitle">Your educational background</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Educational Qualification <span class="req">*</span></label>
+                        <select id="qualification" onchange="toggleOtherQual()">
+                            <option value="">Select</option>
+                            <option>Diploma</option>
+                            <option>UG - B.Com</option>
+                            <option>UG - B.Sc</option>
+                            <option>UG - B.Tech</option>
+                            <option>UG - BCA</option>
+                            <option>UG - B.E</option>
+                            <option>PG - M.Sc</option>
+                            <option>PG - M.Tech</option>
+                            <option>PG - MCA</option>
+                            <option>PG - MBA</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <span class="field-error" id="qualificationError"></span>
+                    </div>
+                    <div class="form-group" id="otherQualGroup" style="display:none">
+                        <label>Specify Qualification <span class="req">*</span></label>
+                        <textarea id="otherQual" placeholder="Enter your qualification" rows="2"></textarea>
+                        <span class="field-error" id="otherQualError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Department <span class="req">*</span></label>
+                        <select id="department">
+                            <option value="">Select Department</option>
+                            <option>Computer Science</option>
+                            <option>Computer Application</option>
+                            <option>Information Technology</option>
+                            <option>Mechanical</option>
+                            <option>Civil</option>
+                            <option>Electrical</option>
+                            <option>Electronics</option>
+                            <option>Commerce</option>
+                            <option>Business Administration</option>
+                            <option>Other</option>
+                        </select>
+                        <span class="field-error" id="departmentError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Year of Study / Passed Out <span class="req">*</span></label>
+                        <select id="yearOfStudy">
+                            <option value="">Select</option>
+                            <option>1st Year</option>
+                            <option>2nd Year</option>
+                            <option>3rd Year</option>
+                            <option>4th Year</option>
+                            <option value="passedout">Passed Out</option>
+                        </select>
+                        <span class="field-error" id="yearOfStudyError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row" id="passedOutYearRow" style="display:none">
+                    <div class="form-group">
+                        <label>Passed Out Year <span class="req">*</span></label>
+                        <select id="passedOutYear">
+                            <option value="">Select Year</option>
+                        </select>
+                        <span class="field-error" id="passedOutYearError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>College Name <span class="req">*</span></label>
+                        <input type="text" id="college" placeholder="Enter college name" minlength="10">
+                        <span class="field-error" id="collegeError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>University <span class="req">*</span></label>
+                        <input type="text" id="university" placeholder="Enter university name" minlength="10">
+                        <span class="field-error" id="universityError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City <span class="req">*</span></label>
+                        <input type="text" id="acadCity" placeholder="City of institution">
+                        <span class="field-error" id="acadCityError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>State <span class="req">*</span></label>
+                        <select id="acadState">
+                            <option value="">Select State</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Arunachal Pradesh</option>
+                            <option>Assam</option>
+                            <option>Bihar</option>
+                            <option>Chhattisgarh</option>
+                            <option>Goa</option>
+                            <option>Gujarat</option>
+                            <option>Haryana</option>
+                            <option>Himachal Pradesh</option>
+                            <option>Jharkhand</option>
+                            <option>Karnataka</option>
+                            <option>Kerala</option>
+                            <option>Madhya Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Manipur</option>
+                            <option>Meghalaya</option>
+                            <option>Mizoram</option>
+                            <option>Nagaland</option>
+                            <option>Odisha</option>
+                            <option>Punjab</option>
+                            <option>Rajasthan</option>
+                            <option>Sikkim</option>
+                            <option>Tamil Nadu</option>
+                            <option>Telangana</option>
+                            <option>Tripura</option>
+                            <option>Uttar Pradesh</option>
+                            <option>Uttarakhand</option>
+                            <option>West Bengal</option>
+                        </select>
+                        <span class="field-error" id="acadStateError"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Skills Details -->
+            <div class="step-content" id="step3">
+                <h2>💡 Skills Details</h2>
+                <p class="form-subtitle">Showcase your technical abilities</p>
+
+                <div class="form-group">
+                    <label>Technical Skills <span class="req">*</span></label>
+                    <div class="tags-container" id="techSkillsTags"></div>
+                    <span class="field-error" id="techSkillsError"></span>
+                    <input type="text" id="otherSkill" placeholder="Add other skill and press Enter"
+                        style="margin-top:8px">
+                </div>
+
+                <div class="form-group">
+                    <label>Languages Known <span class="req">*</span></label>
+                    <div id="languagesContainer"></div>
+                    <span class="field-error" id="languagesError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Certificates <small style="color:var(--muted);font-weight:400">(Optional)</small></label>
+                    <div id="certContainer"></div>
+                    <button type="button" class="photo-upload-btn" onclick="addCertEntry()" style="margin-top:8px">+ Add
+                        Certificate</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Internship Experience</label>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Do you have internship experience?</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="hasInternship" onchange="toggleInternship()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="internship-fields" id="internshipFields">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Internship / Project Title <span class="req">*</span></label>
+                                <input type="text" id="internTitle" placeholder="E.g. Web Dev Internship">
+                                <span class="field-error" id="internTitleError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Company / Organisation <span class="req">*</span></label>
+                                <input type="text" id="internCompany" placeholder="Company name">
+                                <span class="field-error" id="internCompanyError"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Internship Type <span class="req">*</span></label>
+                                <select id="internType">
+                                    <option value="">Select</option>
+                                    <option>Full-time</option>
+                                    <option>Part-time</option>
+                                    <option>Remote</option>
+                                    <option>Hybrid</option>
+                                </select>
+                                <span class="field-error" id="internTypeError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Technologies / Tools Used <span class="req">*</span></label>
+                                <input type="text" id="internTech" placeholder="React, Node.js, MySQL">
+                                <span class="field-error" id="internTechError"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Start Date <span class="req">*</span></label>
+                                <input type="date" id="internStart">
+                                <span class="field-error" id="internStartError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>End Date <span class="req">*</span></label>
+                                <input type="date" id="internEnd">
+                                <span class="field-error" id="internEndError"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Role / Responsibility <small style="color:var(--muted)">(Optional)</small></label>
+                            <input type="text" id="internRole" placeholder="Your role">
+                        </div>
+                        <div class="form-group">
+                            <label>Description <span class="req">*</span></label>
+                            <textarea id="internDesc" placeholder="Describe your internship (20–500 characters)"
+                                minlength="20" maxlength="500" rows="3"></textarea>
+                            <span class="field-error" id="internDescError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Internship Certificate <small style="color:var(--muted)">(PDF/JPG/PNG, max 2
+                                    MB)</small></label>
+                            <div class="file-drop" onclick="document.getElementById('internCert').click()">
+                                <div class="drop-icon">📄</div>
+                                <div class="drop-text">Click to upload or <strong>drag & drop</strong></div>
+                            </div>
+                            <input type="file" id="internCert" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
+                                onchange="showFileName(this,'internCertInfo')">
+                            <div id="internCertInfo"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: Reference Documents -->
+            <div class="step-content" id="step4">
+                <h2>📁 Reference Documents</h2>
+                <p class="form-subtitle">Upload your supporting documents</p>
+
+                <div class="form-group">
+                    <label>Resume / CV <small style="color:var(--muted)">(PDF, max 5 MB)</small></label>
+                    <div class="file-drop" onclick="document.getElementById('resume').click()">
+                        <div class="drop-icon">📄</div>
+                        <div class="drop-text">Click to upload your <strong>Resume</strong></div>
+                    </div>
+                    <input type="file" id="resume" accept=".pdf" style="display:none"
+                        onchange="showFileName(this,'resumeInfo')">
+                    <div id="resumeInfo"></div>
+                    <span class="field-error" id="resumeError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>ID Proof <small style="color:var(--muted)">(PDF/JPG/PNG, max 2 MB)</small></label>
+                    <div class="file-drop" onclick="document.getElementById('idProof').click()">
+                        <div class="drop-icon">🪪</div>
+                        <div class="drop-text">Click to upload your <strong>ID Proof</strong></div>
+                    </div>
+                    <input type="file" id="idProof" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
+                        onchange="showFileName(this,'idProofInfo')">
+                    <div id="idProofInfo"></div>
+                    <span class="field-error" id="idProofError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Documents <small style="color:var(--muted)">(Optional, up to 3
+                            files)</small></label>
+                    <div class="file-drop" onclick="document.getElementById('additionalDocs').click()">
+                        <div class="drop-icon">📎</div>
+                        <div class="drop-text">Click to upload <strong>additional documents</strong></div>
+                    </div>
+                    <input type="file" id="additionalDocs" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                        style="display:none" onchange="showMultiFiles(this,'addDocsInfo')">
+                    <div id="addDocsInfo"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-actions">
+                <button class="btn btn-prev" id="btnPrev" onclick="prevStep()" style="visibility:hidden">←
+                    Previous</button>
+                <button class="btn btn-next" id="btnNext" onclick="nextStep()">Next Step →</button>
+                <button class="btn btn-submit" id="btnSubmit" onclick="submitRegistration()" style="display:none">Submit
+                    Registration ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS OVERLAY -->
+    <div class="toast-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="success-icon">🎉</div>
+            <h3>Registration Successful!</h3>
+            <p>Your enrollment has been submitted. Redirecting to login…</p>
+        </div>
+    </div>
+
+    <script>
+        // ── CONFIG ──
+        const TECH_SKILLS = ['Java', 'Python', 'SQL', 'HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Data Analysis', 'C++', 'C#', 'PHP', 'Angular', 'Vue.js', 'Flutter', 'Swift', 'Kotlin', 'R', 'MongoDB', 'AWS'];
+        const LANGUAGES = ['English', 'Hindi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam', 'Bengali', 'Marathi', 'Gujarati', 'Punjabi', 'Urdu', 'Odia'];
+        let currentStep = 1;
+        const totalSteps = 4;
+        let selectedSkills = new Set();
+        let certCount = 0;
+
+        // ── INIT ──
+        (function init() {
+            // Auth guard
+            const student = JSON.parse(sessionStorage.getItem('studentUser') || 'null');
+            if (!student || student.role !== 'student') { window.location.href = '/'; return }
+
+            // Query params
+            const params = new URLSearchParams(window.location.search);
+            const program = params.get('program') || 'Program';
+            const type = params.get('type') || 'course';
+            document.getElementById('programTitle').textContent = 'Enrolling for: ' + decodeURIComponent(program);
+            document.getElementById('programType').textContent = type === 'internship' ? '🚀 Internship' : '📚 Course';
+
+            // Pre-fill email
+            document.getElementById('email').value = student.email || '';
+
+            // Populate tech skills tags
+            const tagsEl = document.getElementById('techSkillsTags');
+            TECH_SKILLS.forEach(s => {
+                const chip = document.createElement('div');
+                chip.className = 'tag-chip'; chip.textContent = s;
+                chip.onclick = () => { chip.classList.toggle('selected'); chip.classList.contains('selected') ? selectedSkills.add(s) : selectedSkills.delete(s) };
+                tagsEl.appendChild(chip);
+            });
+
+            // Add other skill on Enter
+            document.getElementById('otherSkill').addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); const v = e.target.value.trim(); if (v && !selectedSkills.has(v)) { selectedSkills.add(v); const chip = document.createElement('div'); chip.className = 'tag-chip selected'; chip.textContent = v; chip.onclick = () => { chip.classList.toggle('selected'); chip.classList.contains('selected') ? selectedSkills.add(v) : selectedSkills.delete(v) }; tagsEl.appendChild(chip); e.target.value = '' } }
+            });
+
+            // Populate languages
+            const langContainer = document.getElementById('languagesContainer');
+            LANGUAGES.forEach(lang => {
+                const row = document.createElement('div'); row.className = 'lang-row';
+                row.innerHTML = `<span class="lang-name">${lang}</span><div class="proficiency-checks"><label><input type="checkbox" value="Read" data-lang="${lang}"> Read</label><label><input type="checkbox" value="Write" data-lang="${lang}"> Write</label><label><input type="checkbox" value="Speak" data-lang="${lang}"> Speak</label></div>`;
+                langContainer.appendChild(row);
+            });
+
+            // Populate passed out years
+            const poSelect = document.getElementById('passedOutYear');
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear; y >= currentYear - 15; y--) { const o = document.createElement('option'); o.value = y; o.textContent = y; poSelect.appendChild(o) }
+
+            // Year of study toggle
+            document.getElementById('yearOfStudy').addEventListener('change', function () {
+                document.getElementById('passedOutYearRow').style.display = this.value === 'passedout' ? 'grid' : 'none';
+            });
+        })();
+
+        // ── STEP NAVIGATION ──
+        function updateProgress() {
+            document.querySelectorAll('.step-circle').forEach(c => {
+                const s = parseInt(c.dataset.step);
+                c.classList.remove('active', 'completed');
+                if (s === currentStep) c.classList.add('active');
+                else if (s < currentStep) c.classList.add('completed');
+            });
+            for (let i = 1; i < totalSteps; i++) {
+                const line = document.getElementById('line' + i);
+                if (line) line.classList.toggle('completed', i < currentStep);
+            }
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + currentStep).classList.add('active');
+            document.getElementById('btnPrev').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            document.getElementById('btnNext').style.display = currentStep < totalSteps ? 'inline-flex' : 'none';
+            document.getElementById('btnSubmit').style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
+        }
+        function nextStep() { if (validateStep(currentStep) && currentStep < totalSteps) { currentStep++; updateProgress(); window.scrollTo({ top: 0, behavior: 'smooth' }) } }
+        function prevStep() { if (currentStep > 1) { currentStep--; updateProgress(); window.scrollTo({ top: 0, behavior: 'smooth' }) } }
+
+        // ── VALIDATION ──
+        function setError(id, msg) { const el = document.getElementById(id); if (el) { el.textContent = msg; const inp = document.getElementById(id.replace('Error', '')); if (inp) inp.classList.toggle('error', !!msg) } }
+        function clearErrors() { document.querySelectorAll('.field-error').forEach(e => e.textContent = ''); document.querySelectorAll('.error').forEach(e => e.classList.remove('error')) }
+
+        function validateStep(step) {
+            clearErrors(); let valid = true;
+            function err(id, msg) { setError(id, msg); valid = false }
+
+            if (step === 1) {
+                const fn = document.getElementById('firstName').value.trim();
+                if (!fn) err('firstNameError', 'Please enter your first name');
+                else if (fn.length < 1 || fn.length > 32) err('firstNameError', 'Must be 1–32 characters');
+                else if (!/^[a-zA-Z\s]+$/.test(fn)) err('firstNameError', 'Only alphabetic characters allowed');
+
+                const ln = document.getElementById('lastName').value.trim();
+                if (!ln) err('lastNameError', 'Please enter your last name');
+                else if (ln.length < 1 || ln.length > 32) err('lastNameError', 'Must be 1–32 characters');
+                else if (!/^[a-zA-Z\s]+$/.test(ln)) err('lastNameError', 'Only alphabetic characters allowed');
+
+                const dob = document.getElementById('dob').value;
+                if (!dob) err('dobError', 'Please select your date of birth');
+                else if (new Date(dob) >= new Date()) err('dobError', 'Future dates are not allowed');
+
+                if (!document.getElementById('gender').value) err('genderError', 'Please select your gender');
+
+                const ct = document.getElementById('contact').value.trim();
+                if (!ct) err('contactError', 'Please enter your contact number');
+                else if (!/^\d{10}$/.test(ct)) err('contactError', 'Must be exactly 10 digits');
+
+                const em = document.getElementById('email').value.trim();
+                if (!em) err('emailError', 'Please enter your email address');
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) err('emailError', 'Please enter a valid email');
+                else if (em.length > 100) err('emailError', 'Email must not exceed 100 characters');
+
+                if (!document.getElementById('street').value.trim()) err('streetError', 'Please enter your street address');
+                if (!document.getElementById('city').value.trim()) err('cityError', 'Please enter your city');
+                const pin = document.getElementById('pincode').value.trim();
+                if (!pin) err('pincodeError', 'Please enter pincode'); else if (!/^\d{6}$/.test(pin)) err('pincodeError', 'Must be 6 digits');
+                if (!document.getElementById('state').value) err('stateError', 'Please select your state');
+
+                // Photo validation
+                const photoInput = document.getElementById('profilePhoto');
+                if (photoInput.files.length > 0 && photoInput.files[0].size > 2 * 1024 * 1024) err('photoError', 'Photo must be under 2 MB');
+            }
+
+            if (step === 2) {
+                const q = document.getElementById('qualification').value;
+                if (!q) err('qualificationError', 'Please select your qualification');
+                if (q === 'Others' && !document.getElementById('otherQual').value.trim()) err('otherQualError', 'Please specify your qualification');
+                if (!document.getElementById('department').value) err('departmentError', 'Please select your department');
+                const yos = document.getElementById('yearOfStudy').value;
+                if (!yos) err('yearOfStudyError', 'Please select year of study');
+                if (yos === 'passedout' && !document.getElementById('passedOutYear').value) err('passedOutYearError', 'Please select passed out year');
+
+                const col = document.getElementById('college').value.trim();
+                if (!col) err('collegeError', 'Please enter your college name');
+                else if (col.length < 10) err('collegeError', 'College name must be at least 10 characters');
+                else if (!/^[a-zA-Z\s]+$/.test(col)) err('collegeError', 'Only alphabets and spaces allowed');
+
+                const uni = document.getElementById('university').value.trim();
+                if (!uni) err('universityError', 'Please enter your university name');
+                else if (uni.length < 10) err('universityError', 'University name must be at least 10 characters');
+                else if (!/^[a-zA-Z\s]+$/.test(uni)) err('universityError', 'Only alphabets and spaces allowed');
+
+                const ac = document.getElementById('acadCity').value.trim();
+                if (!ac) err('acadCityError', 'Please enter a valid city name');
+                else if (!/^[a-zA-Z\s]+$/.test(ac)) err('acadCityError', 'Only alphabets allowed');
+                if (!document.getElementById('acadState').value) err('acadStateError', 'Please select your state');
+            }
+
+            if (step === 3) {
+                if (selectedSkills.size === 0) err('techSkillsError', 'Please select at least one technical skill');
+                const langChecks = document.querySelectorAll('#languagesContainer input[type="checkbox"]:checked');
+                if (langChecks.length === 0) err('languagesError', 'Please select at least one language');
+
+                if (document.getElementById('hasInternship').checked) {
+                    if (!document.getElementById('internTitle').value.trim()) err('internTitleError', 'Please enter internship title');
+                    if (!document.getElementById('internCompany').value.trim()) err('internCompanyError', 'Please enter company name');
+                    if (!document.getElementById('internType').value) err('internTypeError', 'Please select internship type');
+                    if (!document.getElementById('internTech').value.trim()) err('internTechError', 'Please enter technologies used');
+                    if (!document.getElementById('internStart').value) err('internStartError', 'Please select start date');
+                    if (!document.getElementById('internEnd').value) err('internEndError', 'Please select end date');
+                    if (document.getElementById('internStart').value && document.getElementById('internEnd').value) {
+                        if (new Date(document.getElementById('internEnd').value) < new Date(document.getElementById('internStart').value)) err('internEndError', 'End date cannot be before start date');
+                    }
+                    const desc = document.getElementById('internDesc').value.trim();
+                    if (!desc) err('internDescError', 'Please enter description');
+                    else if (desc.length < 20 || desc.length > 500) err('internDescError', 'Description must be 20–500 characters');
+
+                    const ic = document.getElementById('internCert');
+                    if (ic.files.length > 0 && ic.files[0].size > 2 * 1024 * 1024) err('internCertError', 'Certificate must be under 2 MB');
+                }
+            }
+            return valid;
+        }
+
+        // ── HELPERS ──
+        function previewPhoto(input) {
+            const preview = document.getElementById('photoPreview');
+            if (input.files && input.files[0]) {
+                if (input.files[0].size > 2 * 1024 * 1024) { setError('photoError', 'Photo must be under 2 MB'); return }
+                setError('photoError', '');
+                const reader = new FileReader();
+                reader.onload = e => { preview.innerHTML = `<img src="${e.target.result}">`; preview.classList.add('has-image') };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function toggleOtherQual() { document.getElementById('otherQualGroup').style.display = document.getElementById('qualification').value === 'Others' ? 'block' : 'none' }
+        function toggleInternship() { document.getElementById('internshipFields').classList.toggle('show', document.getElementById('hasInternship').checked) }
+
+        function showFileName(input, containerId) {
+            const c = document.getElementById(containerId); c.innerHTML = '';
+            if (input.files[0]) {
+                c.innerHTML = `<div class="file-info"><span>📎</span><span class="file-name">${input.files[0].name}</span><span class="file-remove" onclick="clearFile('${input.id}','${containerId}')">✕</span></div>`;
+            }
+        }
+        function showMultiFiles(input, containerId) {
+            const c = document.getElementById(containerId); c.innerHTML = '';
+            if (input.files.length > 3) { alert('Maximum 3 additional files allowed'); input.value = ''; return }
+            Array.from(input.files).forEach(f => { c.innerHTML += `<div class="file-info"><span>📎</span><span class="file-name">${f.name}</span></div>` });
+        }
+        function clearFile(inputId, containerId) { document.getElementById(inputId).value = ''; document.getElementById(containerId).innerHTML = '' }
+
+        function addCertEntry() {
+            certCount++;
+            const c = document.getElementById('certContainer');
+            const div = document.createElement('div'); div.className = 'cert-entry'; div.id = 'cert' + certCount;
+            div.innerHTML = `<div class="form-row"><div class="form-group"><label>Certificate Name</label><input type="text" placeholder="E.g. AWS Certified"></div><div class="form-group"><label>Issuing Organization</label><input type="text" placeholder="E.g. Amazon"></div></div><div class="form-row"><div class="form-group"><label>Year</label><select><option value="">Select</option>${Array.from({ length: 10 }, (_, i) => `<option>${new Date().getFullYear() - i}</option>`).join('')}</select></div><div class="form-group"><label>Upload (PDF/JPG/PNG, max 5 MB)</label><input type="file" accept=".pdf,.jpg,.jpeg,.png"></div></div><button type="button" style="background:none;border:none;color:var(--danger);font-size:.82rem;cursor:pointer;font-weight:600;margin-top:4px" onclick="document.getElementById('cert${certCount}').remove()">✕ Remove</button>`;
+            c.appendChild(div);
+        }
+
+        // ── SUBMIT ──
+        async function submitRegistration() {
+            if (!validateStep(currentStep)) return;
+            const btn = document.getElementById('btnSubmit'); btn.disabled = true; btn.textContent = 'Submitting…';
+            const student = JSON.parse(sessionStorage.getItem('studentUser') || '{}');
+            const params = new URLSearchParams(window.location.search);
+
+            const formData = new FormData();
+            formData.append('student_id', student.id || '');
+            formData.append('student_email', student.email || '');
+            formData.append('program', params.get('program') || '');
+            formData.append('program_type', params.get('type') || 'course');
+
+            // Personal
+            formData.append('first_name', document.getElementById('firstName').value.trim());
+            formData.append('last_name', document.getElementById('lastName').value.trim());
+            formData.append('dob', document.getElementById('dob').value);
+            formData.append('gender', document.getElementById('gender').value);
+            formData.append('contact', document.getElementById('contact').value.trim());
+            formData.append('email', document.getElementById('email').value.trim());
+            formData.append('street', document.getElementById('street').value.trim());
+            formData.append('city', document.getElementById('city').value.trim());
+            formData.append('pincode', document.getElementById('pincode').value.trim());
+            formData.append('state', document.getElementById('state').value);
+
+            // Photo
+            const photo = document.getElementById('profilePhoto');
+            if (photo.files[0]) formData.append('profile_photo', photo.files[0]);
+
+            // Academic
+            formData.append('qualification', document.getElementById('qualification').value === 'Others' ? document.getElementById('otherQual').value.trim() : document.getElementById('qualification').value);
+            formData.append('department', document.getElementById('department').value);
+            formData.append('year_of_study', document.getElementById('yearOfStudy').value === 'passedout' ? 'Passed Out - ' + document.getElementById('passedOutYear').value : document.getElementById('yearOfStudy').value);
+            formData.append('college', document.getElementById('college').value.trim());
+            formData.append('university', document.getElementById('university').value.trim());
+            formData.append('acad_city', document.getElementById('acadCity').value.trim());
+            formData.append('acad_state', document.getElementById('acadState').value);
+
+            // Skills
+            formData.append('technical_skills', JSON.stringify([...selectedSkills]));
+            const langs = {}; document.querySelectorAll('#languagesContainer input[type="checkbox"]:checked').forEach(cb => { const l = cb.dataset.lang; if (!langs[l]) langs[l] = []; langs[l].push(cb.value) });
+            formData.append('languages', JSON.stringify(langs));
+
+            // Internship
+            formData.append('has_internship', document.getElementById('hasInternship').checked ? 'yes' : 'no');
+            if (document.getElementById('hasInternship').checked) {
+                formData.append('intern_title', document.getElementById('internTitle').value.trim());
+                formData.append('intern_company', document.getElementById('internCompany').value.trim());
+                formData.append('intern_type', document.getElementById('internType').value);
+                formData.append('intern_tech', document.getElementById('internTech').value.trim());
+                formData.append('intern_start', document.getElementById('internStart').value);
+                formData.append('intern_end', document.getElementById('internEnd').value);
+                formData.append('intern_role', document.getElementById('internRole').value.trim());
+                formData.append('intern_desc', document.getElementById('internDesc').value.trim());
+                const ic = document.getElementById('internCert'); if (ic.files[0]) formData.append('intern_cert', ic.files[0]);
+            }
+
+            // Documents
+            const resume = document.getElementById('resume'); if (resume.files[0]) formData.append('resume', resume.files[0]);
+            const idProof = document.getElementById('idProof'); if (idProof.files[0]) formData.append('id_proof', idProof.files[0]);
+            const addDocs = document.getElementById('additionalDocs');
+            for (let i = 0; i < addDocs.files.length; i++)formData.append('additional_docs', addDocs.files[i]);
+
+            try {
+                const res = await fetch('/register', { method: 'POST', body: formData });
+                const result = await res.json();
+                if (result.success) {
+                    document.getElementById('successOverlay').classList.add('active');
+                    setTimeout(() => { window.location.href = '/' }, 2500);
+                } else { alert('Error: ' + result.message); btn.disabled = false; btn.textContent = 'Submit Registration ✓' }
+            } catch (e) { alert('Cannot reach server. Is app.py running?'); btn.disabled = false; btn.textContent = 'Submit Registration ✓' }
+        }
+    </script>
+</body>
+
+</html>
